@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – ItemGraze Content Scheduler</title>
+  <meta name="description" content="ItemGraze Content Scheduler Privacy Policy. Learn how we handle your data with transparency and respect." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #ffffff;
+      --off-white: #faf9f7;
+      --light-gray: #f2f0ec;
+      --mid-gray: #e4e1db;
+      --text-muted: #8a8680;
+      --text-body: #3d3a36;
+      --text-heading: #1a1815;
+      --accent: #c45c3a;
+      --accent-light: #f5ede9;
+      --border: #dedad4;
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      color: var(--text-body);
+      background: var(--white);
+      line-height: 1.7;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5%;
+    }
+    .nav-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      color: var(--text-heading);
+      text-decoration: none;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-back {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--accent); }
+
+    /* HERO */
+    .page-hero {
+      background: var(--off-white);
+      border-bottom: 1px solid var(--border);
+      padding: 64px 5% 52px;
+    }
+    .page-hero-inner { max-width: 760px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 100px;
+      margin-bottom: 1.1rem;
+    }
+    .page-hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      color: var(--text-heading);
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 0.8rem;
+    }
+    .page-hero p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      font-weight: 300;
+    }
+
+    /* CONTENT */
+    .policy-body {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 60px 5% 80px;
+    }
+
+    .policy-section {
+      margin-bottom: 2.8rem;
+      padding-bottom: 2.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .policy-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .policy-section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: var(--text-heading);
+      margin-bottom: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .policy-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      background: var(--accent-light);
+      border-radius: 8px;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .policy-section p {
+      color: var(--text-body);
+      font-size: 0.97rem;
+      line-height: 1.75;
+      margin-bottom: 0.9rem;
+    }
+    .policy-section p:last-child { margin-bottom: 0; }
+
+    .policy-section ul {
+      list-style: none;
+      margin: 0.8rem 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .policy-section ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.65rem;
+      font-size: 0.95rem;
+      color: var(--text-body);
+    }
+    .policy-section ul li::before {
+      content: "·";
+      color: var(--accent);
+      font-size: 1.4rem;
+      line-height: 1.2;
+      flex-shrink: 0;
+    }
+
+    .highlight-box {
+      background: var(--accent-light);
+      border: 1px solid #e8c2b5;
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 20px 24px;
+      margin: 1rem 0;
+    }
+    .highlight-box p {
+      margin: 0;
+      font-size: 0.93rem;
+      color: var(--text-body);
+      font-weight: 500;
+    }
+
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--light-gray);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 18px;
+      font-size: 0.93rem;
+      font-weight: 500;
+      color: var(--text-heading);
+      text-decoration: none;
+      margin-top: 0.5rem;
+      transition: background 0.2s;
+    }
+    .contact-link:hover { background: var(--mid-gray); }
+
+    .effective-date {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    footer {
+      background: var(--text-heading);
+      color: rgba(255,255,255,0.55);
+      padding: 36px 5%;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    footer a { color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: #fff; }
+    .footer-inner { max-width: 1080px; margin: 0 auto; }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
+
+    @media (max-width: 600px) {
+      .policy-body { padding: 40px 5% 60px; }
+      .page-hero { padding: 48px 5% 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">Item<span>Graze</span></a>
+      <a href="/" class="nav-back">← Back to Home</a>
+    </div>
+  </nav>
+
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <div class="hero-badge">Legal</div>
+      <h1>Privacy Policy</h1>
+      <p>Last updated: January 1, 2025 &nbsp;·&nbsp; ItemGraze Content Scheduler</p>
+    </div>
+  </div>
+
+  <main class="policy-body">
+
+    <div class="policy-section">
+      <h2><span class="policy-icon">👋</span> Introduction</h2>
+      <p>Welcome to ItemGraze Content Scheduler ("ItemGraze," "we," "us," or "our"). We are committed to protecting your privacy and handling your information with transparency and care.</p>
+      <p>This Privacy Policy describes how we collect, use, and safeguard information when you use our content scheduling and management service. By using ItemGraze, you agree to the practices described in this policy.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span class="policy-icon">📋</span> Information We Collect</h2>
+      <p>We collect only the minimum information necessary to provide our service:</p>
+      <ul>
+        <li><strong>Account information:</strong> Your name and email address when you register.</li>
+        <li><strong>Content data:</strong> Images, titles, descriptions, and scheduling preferences you upload or create within ItemGraze.</li>
+        <li><strong>Platform connection data:</strong> OAuth tokens required to connect your accounts on supported platforms (e.g., Pinterest). We never store your platform passwords.</li>
+        <li><strong>Usage data:</strong> Basic usage logs to help us diagnose errors and improve the service.</li>
+      </ul>
+      <div class="highlight-box">
+        <p>We do not collect sensitive personal data such as financial information, government-issued identification, health data, or precise geolocation.</p>
+      </div>
+    </div>
+
+    <div class="policy-section">
+      <h2><span class="policy-icon">🔧</span> How We Use Your Information</h2>
+      <p>We use the information we collect solely to operate and improve ItemGraze:</p>
+      <ul>
+        <li>To create and manage your account</li>
+        <li>To enable content scheduling and publishing features</li>
+        <li>To connect to third-party platforms on your behalf, using only the permissions you grant</li>
+        <li>To respond to your support requests</li>
+        <li>To maintain the security and reliability of our service</li>
+      </ul>
+      <p>We only use your data for the purposes described above. We do not use your data for advertising targeting, profiling, or any purpose unrelated to providing the ItemGraze service.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span class="policy-icon">🔒</span> We Do Not Sell or Share Your Data</h2>
+      <p>We do not sell, rent, trade, or share your personal data with third parties for their own marketing or commercial purposes.</p>
+      <p>We may share data only in the following limited circumstances:</p>
+      <ul>
+        <li><strong>With platforms you connect:</strong> When you explicitly authorize ItemGraze to publish content to a platform (e.g., Pinterest), we transmit the content you've selected to that platform on your behalf.</li>
+        <li><strong>With service providers:</strong> We may use trusted infrastructure providers (e.g., hosting) who process data only under our instructions and are bound by confidentiality obligations.</li>
+        <li><strong>When required by law:</strong> We may disclose data if required by valid legal process.</li>
+      </ul>
+    </div>
+
+    <div class="policy-section">
+      <h2><span class="policy-icon">🎛️</span> You Control Your Content</h2>
+      <p>Your content belongs to you. ItemGraze does not claim ownership over any images, text, or media you upload or create using our service.</p>
+      <ul>
+        <li>You can edit or delete your content at any time from within the app.</li>
+        <li>You can disconnect any linked platform account at any time, which will revoke ItemGraze's access to that platform.</li>
+        <li>You can request deletion of your ItemGraze account and all associated data by contacting us at <a href="mailto:support@itemgraze.com">support@itemgraze.com</a>.</li>
+      </ul>
+    </div>
+
+    <div class="policy-section">
+      <h2><span class="policy-icon">🛡️</span> Data Security</h2>
+      <p>We take reasonable technical and organizational measures to protect your information from unauthorized access, loss, or misuse. Platform access tokens are stored encrypted and are never exposed in plaintext.</p>
+      <p>No method of transmission or storage is completely secure. If you believe your account has been compromised, please contact us immediately at <a href="mailto:support@itemgraze.com">support@itemgraze.com</a>.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span class="policy-icon">🍪</span> Cookies</h2>
+      <p>ItemGraze uses only essential cookies required to maintain your session and keep you logged in. We do not use tracking cookies, advertising cookies, or third-party analytics cookies.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span class="policy-icon">🔄</span> Changes to This Policy</h2>
+      <p>We may update this Privacy Policy from time to time. If we make material changes, we will notify you by email or through a notice in the application before the changes take effect. Continued use of ItemGraze after an update constitutes your acceptance of the revised policy.</p>
+    </div>
+
+    <div class="policy-section">
+      <h2><span class="policy-icon">✉️</span> Contact Us</h2>
+      <p>If you have any questions, concerns, or requests regarding this Privacy Policy or how we handle your data, please contact us:</p>
+      <a href="mailto:support@itemgraze.com" class="contact-link">✉ support@itemgraze.com</a>
+    </div>
+
+    <p class="effective-date">This Privacy Policy is effective as of January 1, 2025 and applies to all users of ItemGraze Content Scheduler.</p>
+
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="mailto:support@itemgraze.com">Contact</a>
+      </div>
+      <p>&copy; 2025 ItemGraze Content Scheduler. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

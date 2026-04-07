@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ItemGraze Content Scheduler – Manage and Schedule Your Content</title>
+  <meta name="description" content="ItemGraze helps creators and small businesses manage, organize, and publish visual content with ease. Schedule posts, organize boards, and grow your presence." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --white: #ffffff;
+      --off-white: #faf9f7;
+      --light-gray: #f2f0ec;
+      --mid-gray: #e4e1db;
+      --text-muted: #8a8680;
+      --text-body: #3d3a36;
+      --text-heading: #1a1815;
+      --accent: #c45c3a;
+      --accent-light: #f5ede9;
+      --border: #dedad4;
+      --shadow: 0 2px 16px rgba(0,0,0,0.07);
+      --radius: 12px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      color: var(--text-body);
+      background: var(--white);
+      line-height: 1.7;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 5%;
+    }
+    .nav-inner {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.25rem;
+      color: var(--text-heading);
+      text-decoration: none;
+      letter-spacing: -0.01em;
+    }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--text-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      background: var(--off-white);
+      padding: 100px 5% 90px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--accent-light);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 1.4rem;
+    }
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+      color: var(--text-heading);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      max-width: 720px;
+      margin: 0 auto 1.2rem;
+    }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      max-width: 520px;
+      margin: 0 auto 2.4rem;
+      font-weight: 300;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      transition: background 0.2s, transform 0.15s;
+      letter-spacing: 0.01em;
+    }
+    .btn-primary:hover { background: #b04e2f; transform: translateY(-1px); }
+
+    /* SECTIONS */
+    section { padding: 80px 5%; }
+    .section-inner { max-width: 1080px; margin: 0 auto; }
+    .section-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
+      color: var(--text-heading);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.2rem;
+    }
+    .section-desc {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 600px;
+      margin-bottom: 2.8rem;
+      font-weight: 300;
+      line-height: 1.75;
+    }
+
+    /* ABOUT */
+    #about { background: var(--white); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: center;
+    }
+    .about-text p {
+      color: var(--text-body);
+      margin-bottom: 1rem;
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+    .about-list {
+      list-style: none;
+      margin-top: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+    .about-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      font-size: 0.97rem;
+      color: var(--text-body);
+    }
+    .about-list li::before {
+      content: "✓";
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      background: var(--accent-light);
+      color: var(--accent);
+      border-radius: 50%;
+      font-size: 0.7rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .about-visual {
+      background: var(--light-gray);
+      border-radius: var(--radius);
+      padding: 48px 36px;
+      border: 1px solid var(--border);
+    }
+    .stat-block { margin-bottom: 1.8rem; }
+    .stat-block:last-child { margin-bottom: 0; }
+    .stat-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+    .stat-bar {
+      height: 8px;
+      background: var(--mid-gray);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .stat-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 4px;
+    }
+    .stat-note {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+    }
+
+    /* FEATURES */
+    #features { background: var(--off-white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px 28px;
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+    .feature-card:hover {
+      box-shadow: var(--shadow);
+      transform: translateY(-3px);
+    }
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--accent-light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.1rem;
+      font-size: 1.3rem;
+    }
+    .feature-card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--text-heading);
+      margin-bottom: 0.5rem;
+    }
+    .feature-card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* COMPLIANCE */
+    #compliance { background: var(--white); }
+    .compliance-box {
+      background: var(--accent-light);
+      border: 1px solid #e8c2b5;
+      border-left: 4px solid var(--accent);
+      border-radius: var(--radius);
+      padding: 36px 40px;
+      max-width: 800px;
+    }
+    .compliance-box h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      color: var(--text-heading);
+      margin-bottom: 0.8rem;
+    }
+    .compliance-box p {
+      color: var(--text-body);
+      font-size: 0.97rem;
+      line-height: 1.75;
+    }
+
+    /* CONTACT */
+    #contact { background: var(--off-white); border-top: 1px solid var(--border); }
+    .contact-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 48px;
+      max-width: 560px;
+      box-shadow: var(--shadow);
+    }
+    .contact-card p {
+      color: var(--text-muted);
+      margin-bottom: 1.6rem;
+      font-size: 0.97rem;
+    }
+    .contact-email {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--light-gray);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px 20px;
+      font-size: 0.97rem;
+      font-weight: 500;
+      color: var(--text-heading);
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .contact-email:hover { background: var(--mid-gray); }
+
+    /* FOOTER */
+    footer {
+      background: var(--text-heading);
+      color: rgba(255,255,255,0.55);
+      padding: 36px 5%;
+      text-align: center;
+      font-size: 0.85rem;
+    }
+    footer a { color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.2s; }
+    footer a:hover { color: #fff; }
+    .footer-inner { max-width: 1080px; margin: 0 auto; }
+    .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .about-grid { grid-template-columns: 1fr; gap: 36px; }
+      .nav-links { display: none; }
+      .contact-card { padding: 32px 24px; }
+      .compliance-box { padding: 28px 24px; }
+      section { padding: 60px 5%; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">Item<span>Graze</span></a>
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#compliance">Compliance</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-badge">Content Management for Creators</div>
+    <h1>Manage and schedule your content <em>efficiently</em></h1>
+    <p>ItemGraze Content Scheduler helps creators and small businesses organize, plan, and publish visual content — consistently and with purpose.</p>
+    <a href="#about" class="btn-primary">Learn More</a>
+  </header>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-inner">
+      <div class="about-grid">
+        <div class="about-text">
+          <div class="section-label">About ItemGraze</div>
+          <h2 class="section-title">Built for creators who value consistency</h2>
+          <p>ItemGraze Content Scheduler is a content management tool designed for independent creators, bloggers, and small businesses who want to publish high-quality visual content without the chaos of manual workflows.</p>
+          <p>From uploading and organizing your media to crafting optimized titles and descriptions, ItemGraze gives you a clear, structured way to manage your publishing presence.</p>
+          <ul class="about-list">
+            <li>Upload and manage visual content in one place</li>
+            <li>Organize boards by theme, campaign, or category</li>
+            <li>Publish pins with optimized titles and descriptions</li>
+            <li>Improve posting consistency and audience engagement</li>
+          </ul>
+        </div>
+        <div class="about-visual">
+          <div class="stat-block">
+            <div class="stat-label">Content Organized</div>
+            <div class="stat-bar"><div class="stat-fill" style="width: 88%"></div></div>
+            <div class="stat-note">Boards, categories &amp; collections</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-label">Publishing Consistency</div>
+            <div class="stat-bar"><div class="stat-fill" style="width: 94%"></div></div>
+            <div class="stat-note">Scheduled and on-time posts</div>
+          </div>
+          <div class="stat-block">
+            <div class="stat-label">Content Quality</div>
+            <div class="stat-bar"><div class="stat-fill" style="width: 100%"></div></div>
+            <div class="stat-note">Unique, non-duplicative publishing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <div class="section-inner">
+      <div class="section-label">What We Offer</div>
+      <h2 class="section-title">Everything you need to publish with clarity</h2>
+      <p class="section-desc">ItemGraze is purpose-built to simplify how creators manage and deliver their content across visual platforms.</p>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📅</div>
+          <h3>Content Scheduling</h3>
+          <p>Plan your publishing calendar in advance. Set dates and times for your content to go live — no last-minute rushing.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🗂️</div>
+          <h3>Board Organization</h3>
+          <p>Create structured boards to group your content by topic, product, or campaign. Keep everything neat and navigable.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">✏️</div>
+          <h3>Optimized Publishing</h3>
+          <p>Craft well-described, keyword-rich titles and descriptions for each piece of content before it goes live.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Simple Workflow</h3>
+          <p>A clean, intuitive interface designed for solo creators and small teams — no technical knowledge required.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPLIANCE -->
+  <section id="compliance">
+    <div class="section-inner">
+      <div class="section-label">Our Commitment</div>
+      <h2 class="section-title">Platform-aligned by design</h2>
+      <div class="compliance-box">
+        <h3>Content Quality &amp; Policy Compliance</h3>
+        <p>ItemGraze is committed to responsible content management. We focus on helping users publish <strong>high-quality, original, non-duplicative content</strong> that adds genuine value to audiences. ItemGraze complies fully with the terms of service and developer policies of all platforms it integrates with. We do not support spam, misleading content, or any publishing practices that violate platform guidelines. Our goal is to empower creators to share their work authentically and sustainably.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-inner">
+      <div class="section-label">Get in Touch</div>
+      <h2 class="section-title">We're here to help</h2>
+      <div class="contact-card">
+        <p>Have a question about ItemGraze Content Scheduler, our data practices, or how we work with platform APIs? Reach out to our support team — we typically respond within one business day.</p>
+        <a href="mailto:support@itemgraze.com" class="contact-email">
+          <span>✉</span> support@itemgraze.com
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="#about">About</a>
+        <a href="#features">Features</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
+        <a href="mailto:support@itemgraze.com">Contact</a>
+      </div>
+      <p>&copy; 2025 ItemGraze Content Scheduler. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
