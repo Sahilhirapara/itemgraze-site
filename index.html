@@ -1,477 +1,597 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ItemGraze Content Scheduler – Manage and Schedule Your Content</title>
-  <meta name="description" content="ItemGraze helps creators and small businesses manage, organize, and publish visual content with ease. Schedule posts, organize boards, and grow your presence." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --white: #ffffff;
-      --off-white: #faf9f7;
-      --light-gray: #f2f0ec;
-      --mid-gray: #e4e1db;
-      --text-muted: #8a8680;
-      --text-body: #3d3a36;
-      --text-heading: #1a1815;
-      --accent: #c45c3a;
-      --accent-light: #f5ede9;
-      --border: #dedad4;
-      --shadow: 0 2px 16px rgba(0,0,0,0.07);
-      --radius: 12px;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 400;
-      color: var(--text-body);
-      background: var(--white);
-      line-height: 1.7;
-    }
-
-    /* NAV */
-    nav {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(255,255,255,0.92);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 5%;
-    }
-    .nav-inner {
-      max-width: 1080px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 64px;
-    }
-    .nav-logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.25rem;
-      color: var(--text-heading);
-      text-decoration: none;
-      letter-spacing: -0.01em;
-    }
-    .nav-logo span { color: var(--accent); }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      text-decoration: none;
-      color: var(--text-body);
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: var(--accent); }
-
-    /* HERO */
-    .hero {
-      background: var(--off-white);
-      padding: 100px 5% 90px;
-      text-align: center;
-      border-bottom: 1px solid var(--border);
-    }
-    .hero-badge {
-      display: inline-block;
-      background: var(--accent-light);
-      color: var(--accent);
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 5px 14px;
-      border-radius: 100px;
-      margin-bottom: 1.4rem;
-    }
-    .hero h1 {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(2.4rem, 5.5vw, 3.8rem);
-      color: var(--text-heading);
-      line-height: 1.15;
-      letter-spacing: -0.02em;
-      max-width: 720px;
-      margin: 0 auto 1.2rem;
-    }
-    .hero h1 em { font-style: italic; color: var(--accent); }
-    .hero p {
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      max-width: 520px;
-      margin: 0 auto 2.4rem;
-      font-weight: 300;
-    }
-    .btn-primary {
-      display: inline-block;
-      background: var(--accent);
-      color: #fff;
-      text-decoration: none;
-      padding: 14px 32px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.95rem;
-      transition: background 0.2s, transform 0.15s;
-      letter-spacing: 0.01em;
-    }
-    .btn-primary:hover { background: #b04e2f; transform: translateY(-1px); }
-
-    /* SECTIONS */
-    section { padding: 80px 5%; }
-    .section-inner { max-width: 1080px; margin: 0 auto; }
-    .section-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.6rem;
-    }
-    .section-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(1.7rem, 3.5vw, 2.4rem);
-      color: var(--text-heading);
-      line-height: 1.2;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.2rem;
-    }
-    .section-desc {
-      color: var(--text-muted);
-      font-size: 1rem;
-      max-width: 600px;
-      margin-bottom: 2.8rem;
-      font-weight: 300;
-      line-height: 1.75;
-    }
-
-    /* ABOUT */
-    #about { background: var(--white); }
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 60px;
-      align-items: center;
-    }
-    .about-text p {
-      color: var(--text-body);
-      margin-bottom: 1rem;
-      font-size: 1rem;
-      line-height: 1.75;
-    }
-    .about-list {
-      list-style: none;
-      margin-top: 1.6rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-    .about-list li {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.7rem;
-      font-size: 0.97rem;
-      color: var(--text-body);
-    }
-    .about-list li::before {
-      content: "✓";
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 22px;
-      height: 22px;
-      background: var(--accent-light);
-      color: var(--accent);
-      border-radius: 50%;
-      font-size: 0.7rem;
-      font-weight: 700;
-      flex-shrink: 0;
-      margin-top: 2px;
-    }
-    .about-visual {
-      background: var(--light-gray);
-      border-radius: var(--radius);
-      padding: 48px 36px;
-      border: 1px solid var(--border);
-    }
-    .stat-block { margin-bottom: 1.8rem; }
-    .stat-block:last-child { margin-bottom: 0; }
-    .stat-label {
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      margin-bottom: 0.4rem;
-    }
-    .stat-bar {
-      height: 8px;
-      background: var(--mid-gray);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-    .stat-fill {
-      height: 100%;
-      background: var(--accent);
-      border-radius: 4px;
-    }
-    .stat-note {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-top: 0.3rem;
-    }
-
-    /* FEATURES */
-    #features { background: var(--off-white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 24px;
-    }
-    .feature-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px 28px;
-      transition: box-shadow 0.2s, transform 0.2s;
-    }
-    .feature-card:hover {
-      box-shadow: var(--shadow);
-      transform: translateY(-3px);
-    }
-    .feature-icon {
-      width: 44px;
-      height: 44px;
-      background: var(--accent-light);
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.1rem;
-      font-size: 1.3rem;
-    }
-    .feature-card h3 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.1rem;
-      color: var(--text-heading);
-      margin-bottom: 0.5rem;
-    }
-    .feature-card p {
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      line-height: 1.65;
-    }
-
-    /* COMPLIANCE */
-    #compliance { background: var(--white); }
-    .compliance-box {
-      background: var(--accent-light);
-      border: 1px solid #e8c2b5;
-      border-left: 4px solid var(--accent);
-      border-radius: var(--radius);
-      padding: 36px 40px;
-      max-width: 800px;
-    }
-    .compliance-box h3 {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.3rem;
-      color: var(--text-heading);
-      margin-bottom: 0.8rem;
-    }
-    .compliance-box p {
-      color: var(--text-body);
-      font-size: 0.97rem;
-      line-height: 1.75;
-    }
-
-    /* CONTACT */
-    #contact { background: var(--off-white); border-top: 1px solid var(--border); }
-    .contact-card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 48px;
-      max-width: 560px;
-      box-shadow: var(--shadow);
-    }
-    .contact-card p {
-      color: var(--text-muted);
-      margin-bottom: 1.6rem;
-      font-size: 0.97rem;
-    }
-    .contact-email {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
-      background: var(--light-gray);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 20px;
-      font-size: 0.97rem;
-      font-weight: 500;
-      color: var(--text-heading);
-      text-decoration: none;
-      transition: background 0.2s;
-    }
-    .contact-email:hover { background: var(--mid-gray); }
-
-    /* FOOTER */
-    footer {
-      background: var(--text-heading);
-      color: rgba(255,255,255,0.55);
-      padding: 36px 5%;
-      text-align: center;
-      font-size: 0.85rem;
-    }
-    footer a { color: rgba(255,255,255,0.75); text-decoration: none; transition: color 0.2s; }
-    footer a:hover { color: #fff; }
-    .footer-inner { max-width: 1080px; margin: 0 auto; }
-    .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .about-grid { grid-template-columns: 1fr; gap: 36px; }
-      .nav-links { display: none; }
-      .contact-card { padding: 32px 24px; }
-      .compliance-box { padding: 28px 24px; }
-      section { padding: 60px 5%; }
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>ItemGraze Content Scheduler — Automate Your Pinterest Growth</title>
+<meta name="description" content="Schedule Pins, auto-post to boards, and grow your Pinterest — all with one dashboard." />
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  html, body { font-family: 'Inter', system-ui, sans-serif; }
+  .fade-in { animation: fade .35s ease both; }
+  @keyframes fade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .spin { animation: spin 1s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .pulse-dot { animation: pulse 1.2s ease-in-out infinite; }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .35; } }
+  .toast-in { animation: toast .4s cubic-bezier(.2,.9,.3,1.3) both; }
+  @keyframes toast { from { opacity: 0; transform: translateY(20px) scale(.95); } to { opacity: 1; transform: none; } }
+  .modal-in { animation: modal .25s ease both; }
+  @keyframes modal { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: none; } }
+  .backdrop-in { animation: bd .25s ease both; }
+  @keyframes bd { from { opacity: 0; } to { opacity: 1; } }
+  .gradient-bg { background: radial-gradient(1000px 500px at 80% -10%, #fee2e2 0%, transparent 60%), radial-gradient(800px 500px at 0% 0%, #fef3c7 0%, transparent 60%), #ffffff; }
+  .pin-card { transition: all .2s ease; }
+  .pin-card:hover { transform: translateY(-2px); box-shadow: 0 12px 40px -12px rgba(0,0,0,.18); }
+</style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-900 antialiased">
 
-  <nav>
-    <div class="nav-inner">
-      <a href="/" class="nav-logo">Item<span>Graze</span></a>
-      <ul class="nav-links">
-        <li><a href="#about">About</a></li>
-        <li><a href="#features">Features</a></li>
-        <li><a href="#compliance">Compliance</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+<div id="app"></div>
+<div id="toast-root" class="fixed bottom-6 right-6 z-[100] flex flex-col gap-2"></div>
+<div id="modal-root"></div>
+
+<script>
+// ─── Mock State ────────────────────────────────────────────────────────────
+const state = {
+  connected: JSON.parse(localStorage.getItem('pin_connected') || 'false'),
+  username: localStorage.getItem('pin_username') || '',
+  boards: [
+    { id: 'b1', name: 'Kitchen Gadgets', pins: 42, cover: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=200' },
+    { id: 'b2', name: 'Car Accessories', pins: 18, cover: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=200' },
+    { id: 'b3', name: 'Home Decor Finds', pins: 67, cover: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?w=200' },
+    { id: 'b4', name: 'Travel Essentials', pins: 25, cover: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=200' },
+  ],
+  scheduledPins: JSON.parse(localStorage.getItem('pin_scheduled') || JSON.stringify([
+    { id: 'p1', title: 'Portable Blender — Morning Smoothies', board: 'Kitchen Gadgets', image: 'https://images.unsplash.com/photo-1570197571499-166b36435e9f?w=400', scheduledAt: '2026-04-10 09:00', status: 'Scheduled' },
+    { id: 'p2', title: 'LED Car Charger Dual Port', board: 'Car Accessories', image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=400', scheduledAt: '2026-04-09 14:30', status: 'Scheduled' },
+    { id: 'p3', title: 'Minimalist Desk Lamp', board: 'Home Decor Finds', image: 'https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=400', scheduledAt: '2026-04-08 18:00', status: 'Posted' },
+    { id: 'p4', title: 'Travel Neck Pillow', board: 'Travel Essentials', image: 'https://images.unsplash.com/photo-1488646953014-85cb44e25828?w=400', scheduledAt: '2026-04-07 11:00', status: 'Posted' },
+  ])),
+};
+
+function persist() {
+  localStorage.setItem('pin_connected', JSON.stringify(state.connected));
+  localStorage.setItem('pin_username', state.username);
+  localStorage.setItem('pin_scheduled', JSON.stringify(state.scheduledPins));
+}
+
+// ─── Router ────────────────────────────────────────────────────────────────
+const routes = {
+  '': renderLanding,
+  'dashboard': renderDashboard,
+  'create': renderCreate,
+  'scheduled': renderScheduled,
+  'settings': renderSettings,
+};
+
+function go(path) { location.hash = path; }
+
+function router() {
+  const hash = location.hash.replace('#/', '').replace('#', '').split('?')[0];
+  // ignore anchor links on landing
+  if (['features','how'].includes(hash)) return;
+  const render = routes[hash] || renderLanding;
+  const needsAuth = ['dashboard', 'create', 'scheduled', 'settings'].includes(hash);
+  if (needsAuth && !state.connected) { go(''); return; }
+  render();
+  window.scrollTo(0, 0);
+}
+window.addEventListener('hashchange', router);
+
+// ─── Icons ─────────────────────────────────────────────────────────────────
+const icon = {
+  pinterest: '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.08 3.16 9.42 7.63 11.17-.11-.95-.2-2.4.04-3.43.22-.93 1.4-5.94 1.4-5.94s-.36-.72-.36-1.78c0-1.66.97-2.9 2.17-2.9 1.02 0 1.52.77 1.52 1.69 0 1.03-.66 2.57-1 4-.28 1.2.6 2.17 1.78 2.17 2.13 0 3.77-2.25 3.77-5.5 0-2.88-2.07-4.88-5.02-4.88-3.42 0-5.43 2.56-5.43 5.21 0 1.03.4 2.14.89 2.74.1.12.11.22.08.34-.09.37-.29 1.2-.33 1.36-.05.22-.17.27-.4.16-1.5-.7-2.43-2.88-2.43-4.64 0-3.78 2.75-7.25 7.92-7.25 4.16 0 7.39 2.96 7.39 6.92 0 4.13-2.6 7.46-6.22 7.46-1.21 0-2.36-.63-2.75-1.38l-.75 2.85c-.27 1.04-1 2.35-1.49 3.15C9.57 23.81 10.76 24 12 24c6.63 0 12-5.37 12-12S18.63 0 12 0z"/></svg>',
+  check: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>',
+  calendar: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>',
+  send: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>',
+  grid: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>',
+  plus: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>',
+  clock: '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+  settings: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>',
+  shield: '<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>',
+  bolt: '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>',
+  logout: '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>',
+};
+
+// ─── Toast & Modal ─────────────────────────────────────────────────────────
+function toast(msg, type = 'success') {
+  const root = document.getElementById('toast-root');
+  const el = document.createElement('div');
+  const colors = { success: 'bg-emerald-600', error: 'bg-rose-600', info: 'bg-slate-800' };
+  el.className = `toast-in ${colors[type]} text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2 font-medium`;
+  el.innerHTML = `${type === 'success' ? icon.check : ''}<span>${msg}</span>`;
+  root.appendChild(el);
+  setTimeout(() => { el.style.transition = 'opacity .3s'; el.style.opacity = '0'; setTimeout(() => el.remove(), 300); }, 3000);
+}
+
+function showModal(html) {
+  const root = document.getElementById('modal-root');
+  root.innerHTML = `
+    <div class="backdrop-in fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="if(event.target===this)closeModal()">
+      <div class="modal-in bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">${html}</div>
+    </div>`;
+}
+function closeModal() { document.getElementById('modal-root').innerHTML = ''; }
+
+// ─── Connect Flow ──────────────────────────────────────────────────────────
+function connectPinterest() {
+  showModal(`
+    <div class="p-8 text-center">
+      <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">${icon.pinterest}</div>
+      <h3 class="text-xl font-bold mb-2">Redirecting to Pinterest OAuth...</h3>
+      <p class="text-slate-500 text-sm mb-6">You'll be asked to authorize <b>ItemGraze Content Scheduler</b> to post to your boards.</p>
+      <div class="flex items-center justify-center gap-2 text-slate-400">
+        <div class="w-6 h-6 border-2 border-red-500 border-t-transparent rounded-full spin"></div>
+        <span class="text-sm">Connecting securely...</span>
+      </div>
     </div>
-  </nav>
-
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero-badge">Content Management for Creators</div>
-    <h1>Manage and schedule your content <em>efficiently</em></h1>
-    <p>ItemGraze Content Scheduler helps creators and small businesses organize, plan, and publish visual content — consistently and with purpose.</p>
-    <a href="#about" class="btn-primary">Learn More</a>
-  </header>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="section-inner">
-      <div class="about-grid">
-        <div class="about-text">
-          <div class="section-label">About ItemGraze</div>
-          <h2 class="section-title">Built for creators who value consistency</h2>
-          <p>ItemGraze Content Scheduler is a content management tool designed for independent creators, bloggers, and small businesses who want to publish high-quality visual content without the chaos of manual workflows.</p>
-          <p>From uploading and organizing your media to crafting optimized titles and descriptions, ItemGraze gives you a clear, structured way to manage your publishing presence.</p>
-          <ul class="about-list">
-            <li>Upload and manage visual content in one place</li>
-            <li>Organize boards by theme, campaign, or category</li>
-            <li>Publish pins with optimized titles and descriptions</li>
-            <li>Improve posting consistency and audience engagement</li>
-          </ul>
-        </div>
-        <div class="about-visual">
-          <div class="stat-block">
-            <div class="stat-label">Content Organized</div>
-            <div class="stat-bar"><div class="stat-fill" style="width: 88%"></div></div>
-            <div class="stat-note">Boards, categories &amp; collections</div>
+  `);
+  setTimeout(() => {
+    showModal(`
+      <div class="p-8 text-center">
+        <div class="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-4 text-emerald-600">${icon.check}</div>
+        <h3 class="text-xl font-bold mb-1">Connected successfully!</h3>
+        <p class="text-slate-500 text-sm mb-2">Authorized via Pinterest OAuth</p>
+        <div class="bg-slate-50 rounded-xl p-4 my-4 text-left">
+          <div class="text-xs text-slate-400 uppercase tracking-wide">Connected account</div>
+          <div class="flex items-center gap-3 mt-2">
+            <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">K</div>
+            <div>
+              <div class="font-semibold">@keymaking_creates</div>
+              <div class="text-xs text-slate-500">4 boards · 152 pins</div>
+            </div>
           </div>
-          <div class="stat-block">
-            <div class="stat-label">Publishing Consistency</div>
-            <div class="stat-bar"><div class="stat-fill" style="width: 94%"></div></div>
-            <div class="stat-note">Scheduled and on-time posts</div>
+        </div>
+        <button onclick="finishConnect()" class="w-full bg-slate-900 text-white font-semibold py-3 rounded-xl hover:bg-slate-800 transition">Go to Dashboard</button>
+      </div>
+    `);
+  }, 1800);
+}
+
+function finishConnect() {
+  state.connected = true;
+  state.username = '@keymaking_creates';
+  persist();
+  closeModal();
+  toast('Pinterest account connected');
+  go('dashboard');
+}
+
+function disconnectPinterest() {
+  state.connected = false;
+  state.username = '';
+  persist();
+  toast('Disconnected from Pinterest', 'info');
+  go('');
+}
+
+// ─── Sidebar ───────────────────────────────────────────────────────────────
+function sidebar(active) {
+  const items = [
+    { id: 'dashboard', label: 'Dashboard', icon: icon.grid },
+    { id: 'create', label: 'Create Pin', icon: icon.plus },
+    { id: 'scheduled', label: 'Scheduled Pins', icon: icon.clock },
+    { id: 'settings', label: 'Settings', icon: icon.settings },
+  ];
+  return `
+    <aside class="w-64 bg-white border-r border-slate-200 flex-shrink-0 flex flex-col min-h-screen">
+      <div class="p-6 border-b border-slate-100">
+        <div class="flex items-center gap-2">
+          <div class="w-9 h-9 bg-gradient-to-br from-red-500 to-pink-500 rounded-xl flex items-center justify-center text-white">${icon.pinterest}</div>
+          <div>
+            <div class="font-bold text-slate-900">ItemGraze Content Scheduler</div>
+            <div class="text-xs text-slate-500">Pinterest Automation</div>
           </div>
-          <div class="stat-block">
-            <div class="stat-label">Content Quality</div>
-            <div class="stat-bar"><div class="stat-fill" style="width: 100%"></div></div>
-            <div class="stat-note">Unique, non-duplicative publishing</div>
+        </div>
+      </div>
+      <nav class="p-4 flex-1 space-y-1">
+        ${items.map(i => `
+          <a href="#${i.id}" class="flex items-center gap-3 px-4 py-2.5 rounded-xl font-medium transition ${active === i.id ? 'bg-red-50 text-red-600' : 'text-slate-600 hover:bg-slate-50'}">
+            ${i.icon}<span>${i.label}</span>
+          </a>
+        `).join('')}
+      </nav>
+      <div class="p-4 border-t border-slate-100">
+        <div class="bg-slate-50 rounded-xl p-3 flex items-center gap-3">
+          <div class="w-9 h-9 bg-gradient-to-br from-red-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-sm">K</div>
+          <div class="flex-1 min-w-0">
+            <div class="text-sm font-semibold truncate">${state.username}</div>
+            <div class="text-xs text-emerald-600 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full pulse-dot"></span>Connected</div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </aside>
+  `;
+}
 
-  <!-- FEATURES -->
-  <section id="features">
-    <div class="section-inner">
-      <div class="section-label">What We Offer</div>
-      <h2 class="section-title">Everything you need to publish with clarity</h2>
-      <p class="section-desc">ItemGraze is purpose-built to simplify how creators manage and deliver their content across visual platforms.</p>
-      <div class="features-grid">
-        <div class="feature-card">
-          <div class="feature-icon">📅</div>
-          <h3>Content Scheduling</h3>
-          <p>Plan your publishing calendar in advance. Set dates and times for your content to go live — no last-minute rushing.</p>
+// ─── Landing ───────────────────────────────────────────────────────────────
+function renderLanding() {
+  document.getElementById('app').innerHTML = `
+    <div class="gradient-bg min-h-screen fade-in">
+      <nav class="max-w-6xl mx-auto flex items-center justify-between p-6">
+        <div class="flex items-center gap-2">
+          <div class="w-9 h-9 bg-gradient-to-br from-red-500 to-pink-500 rounded-xl flex items-center justify-center text-white">${icon.pinterest}</div>
+          <span class="font-bold text-lg">ItemGraze Content Scheduler</span>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">🗂️</div>
-          <h3>Board Organization</h3>
-          <p>Create structured boards to group your content by topic, product, or campaign. Keep everything neat and navigable.</p>
+        <div class="flex items-center gap-6 text-sm font-medium text-slate-600">
+          <a href="#features" class="hover:text-slate-900 hidden md:inline">Features</a>
+          <a href="#how" class="hover:text-slate-900 hidden md:inline">How it works</a>
+          ${state.connected
+            ? `<a href="#dashboard" class="bg-slate-900 text-white px-4 py-2 rounded-lg hover:bg-slate-800">Open Dashboard</a>`
+            : `<button onclick="connectPinterest()" class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Connect Pinterest (OAuth)</button>`}
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">✏️</div>
-          <h3>Optimized Publishing</h3>
-          <p>Craft well-described, keyword-rich titles and descriptions for each piece of content before it goes live.</p>
+      </nav>
+
+      <section class="max-w-6xl mx-auto px-6 pt-16 pb-24 text-center">
+        <div class="inline-flex items-center gap-2 bg-white border border-slate-200 rounded-full px-4 py-1.5 text-xs font-medium text-slate-600 mb-6 shadow-sm">
+          <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full pulse-dot"></span>
+          Trusted by 2,000+ Pinterest creators
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">⚡</div>
-          <h3>Simple Workflow</h3>
-          <p>A clean, intuitive interface designed for solo creators and small teams — no technical knowledge required.</p>
+        <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.05] mb-6">
+          Automate Your<br/>
+          <span class="bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent">Pinterest Growth</span>
+        </h1>
+        <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10">
+          Schedule Pins, auto-post to boards, and manage your entire Pinterest workflow from one clean dashboard.
+        </p>
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
+          <button onclick="connectPinterest()" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-8 py-4 rounded-xl shadow-lg shadow-red-600/20 transition flex items-center gap-2">
+            ${icon.pinterest} Connect Pinterest (OAuth)
+          </button>
+          <a href="#features" class="text-slate-700 font-semibold px-6 py-4 hover:text-slate-900">See features →</a>
         </div>
-      </div>
-    </div>
-  </section>
+        <p class="text-xs text-slate-500 mt-3">Secure authorization via Pinterest OAuth</p>
+        <p class="text-sm text-slate-600 mt-4 font-medium">We only post content to boards you own and only with your permission.</p>
+        <p class="text-xs text-slate-500 mt-2">All actions require user authorization via Pinterest OAuth.</p>
+      </section>
 
-  <!-- COMPLIANCE -->
-  <section id="compliance">
-    <div class="section-inner">
-      <div class="section-label">Our Commitment</div>
-      <h2 class="section-title">Platform-aligned by design</h2>
-      <div class="compliance-box">
-        <h3>Content Quality &amp; Policy Compliance</h3>
-        <p>ItemGraze is committed to responsible content management. We focus on helping users publish <strong>high-quality, original, non-duplicative content</strong> that adds genuine value to audiences. ItemGraze complies fully with the terms of service and developer policies of all platforms it integrates with. We do not support spam, misleading content, or any publishing practices that violate platform guidelines. Our goal is to empower creators to share their work authentically and sustainably.</p>
-      </div>
-    </div>
-  </section>
+      <section id="features" class="max-w-6xl mx-auto px-6 pb-24 scroll-mt-10">
+        <div class="grid md:grid-cols-3 gap-6">
+          ${[
+            { i: icon.calendar, t: 'Schedule Pins', d: 'Queue Pins for the exact time your audience is most active. Set it once and forget it.' },
+            { i: icon.bolt, t: 'Auto-post to Boards', d: 'Automatically publish to the right board based on your content calendar and rules.' },
+            { i: icon.grid, t: 'Manage Multiple Pins', d: 'Bulk-edit, reschedule, or delete hundreds of Pins from a single clean dashboard.' },
+          ].map(f => `
+            <div class="bg-white border border-slate-200 rounded-2xl p-7 shadow-sm hover:shadow-lg transition">
+              <div class="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center mb-4">${f.i}</div>
+              <h3 class="text-lg font-bold mb-2">${f.t}</h3>
+              <p class="text-slate-600 text-sm leading-relaxed">${f.d}</p>
+            </div>
+          `).join('')}
+        </div>
+      </section>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="section-inner">
-      <div class="section-label">Get in Touch</div>
-      <h2 class="section-title">We're here to help</h2>
-      <div class="contact-card">
-        <p>Have a question about ItemGraze Content Scheduler, our data practices, or how we work with platform APIs? Reach out to our support team — we typically respond within one business day.</p>
-        <a href="mailto:support@itemgraze.com" class="contact-email">
-          <span>✉</span> support@itemgraze.com
-        </a>
-      </div>
-    </div>
-  </section>
+      <section id="how" class="max-w-5xl mx-auto px-6 pb-24 scroll-mt-10">
+        <h2 class="text-3xl font-bold text-center mb-2">How it works</h2>
+        <p class="text-center text-slate-600 mb-12">Three simple steps to automate your Pinterest</p>
+        <div class="grid md:grid-cols-3 gap-8">
+          ${[
+            { n: '1', t: 'Connect Pinterest', d: 'Authorize ItemGraze Content Scheduler securely via Pinterest OAuth. We never see your password.' },
+            { n: '2', t: 'Create Your Pin', d: 'Upload an image, choose a board, add a title and destination link.' },
+            { n: '3', t: 'Schedule or Publish', d: 'Post instantly or schedule for the optimal time — ItemGraze Content Scheduler handles the rest.' },
+          ].map(s => `
+            <div class="text-center">
+              <div class="w-12 h-12 bg-slate-900 text-white rounded-full font-bold text-lg flex items-center justify-center mx-auto mb-4">${s.n}</div>
+              <h3 class="font-bold mb-2">${s.t}</h3>
+              <p class="text-sm text-slate-600">${s.d}</p>
+            </div>
+          `).join('')}
+        </div>
+      </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="footer-inner">
-      <div class="footer-links">
-        <a href="/">Home</a>
-        <a href="#about">About</a>
-        <a href="#features">Features</a>
-        <a href="privacy-policy.html">Privacy Policy</a>
-        <a href="mailto:support@itemgraze.com">Contact</a>
-      </div>
-      <p>&copy; 2025 ItemGraze Content Scheduler. All rights reserved.</p>
-    </div>
-  </footer>
+      <section class="max-w-4xl mx-auto px-6 pb-24">
+        <div class="bg-white border border-slate-200 rounded-2xl p-8 flex flex-col md:flex-row items-center gap-6 shadow-sm">
+          <div class="w-14 h-14 bg-emerald-50 text-emerald-600 rounded-2xl flex items-center justify-center flex-shrink-0">${icon.shield}</div>
+          <div class="flex-1 text-center md:text-left">
+            <h3 class="font-bold text-lg mb-1">Your account stays yours</h3>
+            <p class="text-slate-600 text-sm">ItemGraze Content Scheduler only posts to boards you own, and only with your explicit authorization through Pinterest OAuth. You can revoke access at any time.</p>
+          </div>
+        </div>
+      </section>
 
+      <footer class="border-t border-slate-200 bg-white">
+        <div class="max-w-6xl mx-auto px-6 py-8 text-center text-sm text-slate-500 space-y-3">
+          <div class="flex items-center justify-center gap-6">
+            <a href="/privacy-policy.html" class="hover:text-slate-900 font-medium">Privacy Policy</a>
+            <span class="text-slate-300">·</span>
+            <a href="mailto:support@itemgraze.com" class="hover:text-slate-900 font-medium">Contact</a>
+          </div>
+          <div>© 2026 ItemGraze Content Scheduler. All rights reserved.</div>
+          <div class="text-xs text-slate-400 max-w-xl mx-auto">ItemGraze Content Scheduler is not affiliated with or endorsed by Pinterest, Inc. All actions require user authorization via Pinterest OAuth.</div>
+        </div>
+      </footer>
+    </div>
+  `;
+}
+
+// ─── Dashboard ─────────────────────────────────────────────────────────────
+function renderDashboard() {
+  const totalPins = state.scheduledPins.length;
+  const scheduled = state.scheduledPins.filter(p => p.status === 'Scheduled').length;
+  const posted = state.scheduledPins.filter(p => p.status === 'Posted').length;
+
+  document.getElementById('app').innerHTML = `
+    <div class="flex min-h-screen bg-slate-50 fade-in">
+      ${sidebar('dashboard')}
+      <main class="flex-1 p-8 overflow-x-hidden">
+        <div class="flex items-center justify-between mb-8 max-w-6xl">
+          <div>
+            <h1 class="text-3xl font-bold">Dashboard</h1>
+            <p class="text-slate-500 mt-1">Welcome back, here's your Pinterest overview.</p>
+          </div>
+          <a href="#create" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2.5 rounded-xl flex items-center gap-2 shadow-lg shadow-red-600/20">${icon.plus} Create Pin</a>
+        </div>
+
+        <div class="grid md:grid-cols-4 gap-4 mb-8 max-w-6xl">
+          ${[
+            { label: 'Total Pins', value: totalPins, color: 'bg-red-50 text-red-600', i: icon.grid },
+            { label: 'Scheduled', value: scheduled, color: 'bg-amber-50 text-amber-600', i: icon.clock },
+            { label: 'Published', value: posted, color: 'bg-emerald-50 text-emerald-600', i: icon.check },
+            { label: 'Boards', value: state.boards.length, color: 'bg-indigo-50 text-indigo-600', i: icon.pinterest },
+          ].map(s => `
+            <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
+              <div class="flex items-start justify-between">
+                <div>
+                  <div class="text-sm text-slate-500">${s.label}</div>
+                  <div class="text-3xl font-bold mt-1">${s.value}</div>
+                </div>
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center ${s.color}">${s.i}</div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="mb-8 max-w-6xl">
+          <h2 class="text-lg font-bold mb-4">Your Boards</h2>
+          <div class="grid md:grid-cols-4 gap-4">
+            ${state.boards.map(b => `
+              <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden pin-card">
+                <img src="${b.cover}" class="w-full h-32 object-cover" />
+                <div class="p-4">
+                  <div class="font-semibold">${b.name}</div>
+                  <div class="text-xs text-slate-500 mt-1">${b.pins} pins</div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="max-w-6xl">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-lg font-bold">Recent Activity</h2>
+            <a href="#scheduled" class="text-sm text-red-600 font-medium hover:underline">View all →</a>
+          </div>
+          <div class="bg-white border border-slate-200 rounded-2xl divide-y divide-slate-100">
+            ${state.scheduledPins.slice(0, 4).map(p => `
+              <div class="flex items-center gap-4 p-4">
+                <img src="${p.image}" class="w-14 h-14 object-cover rounded-lg" />
+                <div class="flex-1 min-w-0">
+                  <div class="font-semibold truncate">${p.title}</div>
+                  <div class="text-xs text-slate-500">${p.board} · ${p.scheduledAt}</div>
+                </div>
+                <span class="text-xs font-semibold px-3 py-1 rounded-full ${p.status === 'Posted' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'}">${p.status}</span>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+      </main>
+    </div>
+  `;
+}
+
+// ─── Create Pin ────────────────────────────────────────────────────────────
+function renderCreate() {
+  document.getElementById('app').innerHTML = `
+    <div class="flex min-h-screen bg-slate-50 fade-in">
+      ${sidebar('create')}
+      <main class="flex-1 p-8 max-w-5xl">
+        <h1 class="text-3xl font-bold mb-1">Create Pin</h1>
+        <p class="text-slate-500 mb-8">Post instantly or schedule for later.</p>
+
+        <form onsubmit="return false" class="grid md:grid-cols-2 gap-6">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm space-y-5">
+            <div>
+              <label class="text-sm font-semibold text-slate-700 block mb-1.5">Board</label>
+              <select id="f-board" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 bg-white">
+                ${state.boards.map(b => `<option value="${b.name}">${b.name}</option>`).join('')}
+              </select>
+            </div>
+            <div>
+              <label class="text-sm font-semibold text-slate-700 block mb-1.5">Image URL</label>
+              <input id="f-image" type="url" value="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600" oninput="updatePreview()" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-500" placeholder="https://..." />
+              <p class="text-xs text-slate-400 mt-1">Or drop a file (demo uses URL only)</p>
+            </div>
+            <div>
+              <label class="text-sm font-semibold text-slate-700 block mb-1.5">Title</label>
+              <input id="f-title" value="Portable Blender — 5-Second Smoothies" oninput="updatePreview()" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-500" />
+            </div>
+            <div>
+              <label class="text-sm font-semibold text-slate-700 block mb-1.5">Description</label>
+              <textarea id="f-desc" rows="3" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-500">Honestly the best $20 I've spent — makes morning smoothies in seconds. USB rechargeable.</textarea>
+            </div>
+            <div>
+              <label class="text-sm font-semibold text-slate-700 block mb-1.5">Destination link</label>
+              <input id="f-link" value="https://example.com/blender" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-500" />
+            </div>
+            <div>
+              <label class="text-sm font-semibold text-slate-700 block mb-1.5">Schedule for (optional)</label>
+              <input id="f-date" type="datetime-local" class="w-full border border-slate-200 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-red-500" />
+            </div>
+            <div class="flex gap-3 pt-2">
+              <button onclick="publishPin(false)" class="flex-1 bg-red-600 hover:bg-red-700 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-red-600/20">${icon.send} Publish Now</button>
+              <button onclick="publishPin(true)" class="flex-1 bg-slate-900 hover:bg-slate-800 text-white font-semibold py-3 rounded-xl flex items-center justify-center gap-2">${icon.calendar} Schedule</button>
+            </div>
+            <p class="text-xs text-slate-400 text-center pt-2">All actions require user authorization via Pinterest OAuth.</p>
+          </div>
+
+          <div>
+            <div class="sticky top-8">
+              <div class="text-sm font-semibold text-slate-500 mb-3 uppercase tracking-wide">Live preview</div>
+              <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm pin-card">
+                <img id="preview-img" src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600" class="w-full aspect-[3/4] object-cover" />
+                <div class="p-4">
+                  <div id="preview-title" class="font-bold">Portable Blender — 5-Second Smoothies</div>
+                  <div class="flex items-center gap-2 mt-3 text-xs text-slate-500">
+                    <div class="w-6 h-6 bg-gradient-to-br from-red-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">K</div>
+                    ${state.username}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </main>
+    </div>
+  `;
+}
+
+function updatePreview() {
+  const img = document.getElementById('f-image').value;
+  const title = document.getElementById('f-title').value;
+  document.getElementById('preview-img').src = img;
+  document.getElementById('preview-title').textContent = title;
+}
+
+function publishPin(schedule) {
+  const title = document.getElementById('f-title').value.trim();
+  const image = document.getElementById('f-image').value.trim();
+  const board = document.getElementById('f-board').value;
+  const when = document.getElementById('f-date').value || '2026-04-15T10:00';
+  if (!title || !image) { toast('Title and image required', 'error'); return; }
+
+  showModal(`
+    <div class="p-8 text-center">
+      <div class="w-12 h-12 border-4 border-red-500 border-t-transparent rounded-full spin mx-auto mb-4"></div>
+      <div class="font-semibold">${schedule ? 'Scheduling pin...' : 'Publishing to Pinterest...'}</div>
+      <div class="text-sm text-slate-500 mt-1">Calling Pinterest API</div>
+    </div>
+  `);
+
+  setTimeout(() => {
+    const newPin = {
+      id: 'p' + Date.now(),
+      title, board, image,
+      scheduledAt: schedule ? when.replace('T', ' ') : new Date().toISOString().slice(0, 16).replace('T', ' '),
+      status: schedule ? 'Scheduled' : 'Posted',
+    };
+    state.scheduledPins.unshift(newPin);
+    persist();
+    closeModal();
+    toast(schedule ? 'Pin scheduled successfully' : 'Pin published successfully');
+    go('scheduled');
+  }, 1500);
+}
+
+// ─── Scheduled ─────────────────────────────────────────────────────────────
+function renderScheduled() {
+  document.getElementById('app').innerHTML = `
+    <div class="flex min-h-screen bg-slate-50 fade-in">
+      ${sidebar('scheduled')}
+      <main class="flex-1 p-8 max-w-6xl">
+        <div class="flex items-center justify-between mb-8">
+          <div>
+            <h1 class="text-3xl font-bold">Scheduled Pins</h1>
+            <p class="text-slate-500 mt-1">${state.scheduledPins.length} pins in your queue</p>
+          </div>
+          <a href="#create" class="bg-red-600 hover:bg-red-700 text-white font-semibold px-5 py-2.5 rounded-xl flex items-center gap-2 shadow-lg shadow-red-600/20">${icon.plus} New Pin</a>
+        </div>
+
+        ${state.scheduledPins.length === 0 ? `
+          <div class="text-center py-20 bg-white border border-slate-200 rounded-2xl">
+            <div class="text-slate-400 mb-2">No pins scheduled yet</div>
+            <a href="#create" class="text-red-600 font-semibold">Create your first pin →</a>
+          </div>
+        ` : `
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+            ${state.scheduledPins.map(p => `
+              <div class="bg-white border border-slate-200 rounded-2xl overflow-hidden pin-card shadow-sm">
+                <div class="relative">
+                  <img src="${p.image}" class="w-full h-56 object-cover" />
+                  <span class="absolute top-3 right-3 text-xs font-bold px-3 py-1 rounded-full ${p.status === 'Posted' ? 'bg-emerald-500 text-white' : 'bg-amber-500 text-white'}">${p.status}</span>
+                </div>
+                <div class="p-4">
+                  <div class="font-bold mb-1 line-clamp-2">${p.title}</div>
+                  <div class="text-xs text-slate-500 mb-3">📌 ${p.board}</div>
+                  <div class="flex items-center justify-between pt-3 border-t border-slate-100">
+                    <div class="text-xs text-slate-500 flex items-center gap-1">${icon.clock} ${p.scheduledAt}</div>
+                    <button onclick="deletePin('${p.id}')" class="text-xs text-rose-600 font-semibold hover:underline">Remove</button>
+                  </div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `}
+      </main>
+    </div>
+  `;
+}
+
+function deletePin(id) {
+  state.scheduledPins = state.scheduledPins.filter(p => p.id !== id);
+  persist();
+  toast('Pin removed', 'info');
+  renderScheduled();
+}
+
+// ─── Settings ──────────────────────────────────────────────────────────────
+function renderSettings() {
+  document.getElementById('app').innerHTML = `
+    <div class="flex min-h-screen bg-slate-50 fade-in">
+      ${sidebar('settings')}
+      <main class="flex-1 p-8 max-w-3xl">
+        <h1 class="text-3xl font-bold mb-1">Settings</h1>
+        <p class="text-slate-500 mb-8">Manage your connected accounts and preferences.</p>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm mb-6">
+          <h2 class="font-bold text-lg mb-4">Connected Account</h2>
+          <div class="flex items-center gap-4 p-4 bg-slate-50 rounded-xl">
+            <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold">K</div>
+            <div class="flex-1">
+              <div class="font-semibold">${state.username}</div>
+              <div class="text-xs text-emerald-600 flex items-center gap-1 mt-0.5"><span class="w-1.5 h-1.5 bg-emerald-500 rounded-full pulse-dot"></span>Connected via Pinterest OAuth</div>
+            </div>
+            <button onclick="disconnectPinterest()" class="text-sm font-semibold text-rose-600 flex items-center gap-1.5 hover:underline">${icon.logout} Disconnect</button>
+          </div>
+          <p class="text-xs text-slate-400 mt-4">ItemGraze Content Scheduler only posts to boards you own. You can revoke access any time from your Pinterest account settings.</p>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm mb-6">
+          <h2 class="font-bold text-lg mb-4">Requested Permissions</h2>
+          <div class="space-y-2">
+            ${[
+              { s: 'boards:read', pending: false },
+              { s: 'pins:read', pending: false },
+              { s: 'pins:write', pending: true },
+              { s: 'boards:write', pending: true },
+            ].map(p => `
+              <div class="flex items-center gap-3 text-sm">
+                <div class="w-5 h-5 ${p.pending ? 'bg-amber-50 text-amber-600' : 'bg-emerald-50 text-emerald-600'} rounded-full flex items-center justify-center">${p.pending ? icon.clock : icon.check}</div>
+                <code class="bg-slate-50 px-2 py-0.5 rounded text-slate-700">${p.s}</code>
+                ${p.pending ? '<span class="text-xs text-amber-600 font-medium">(pending approval)</span>' : ''}
+              </div>
+            `).join('')}
+          </div>
+          <p class="text-xs text-slate-500 mt-4">Write permissions will be enabled after Pinterest approves the app.</p>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+          <h2 class="font-bold text-lg mb-4">Notifications</h2>
+          ${['Email me when a pin is published','Email me if a scheduled pin fails','Weekly performance summary'].map((l, i, arr) => `
+            <label class="flex items-center justify-between py-3 ${i < arr.length - 1 ? 'border-b border-slate-100' : ''}">
+              <span class="text-sm">${l}</span>
+              <input type="checkbox" ${i < 2 ? 'checked' : ''} class="w-10 h-6 appearance-none bg-slate-200 rounded-full relative cursor-pointer checked:bg-red-600 transition before:content-[''] before:absolute before:w-5 before:h-5 before:bg-white before:rounded-full before:top-0.5 before:left-0.5 before:transition checked:before:translate-x-4" />
+            </label>
+          `).join('')}
+        </div>
+      </main>
+    </div>
+  `;
+}
+
+// ─── Init ──────────────────────────────────────────────────────────────────
+router();
+</script>
 </body>
 </html>
